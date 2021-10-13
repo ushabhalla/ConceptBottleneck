@@ -81,7 +81,7 @@ class PytorchImagesDataset(Dataset):
             self.selected_ids = selected_ids
         else:
             self.selected_ids = np.arange(N)
-            print(self.base_dir_for_images)
+            print()
             l = os.listdir(self.base_dir_for_images)
             self.selected_ids = [int(x.split("_")[1].split(".")[0]) for x in l if x[-1] == "y"]
 
@@ -110,7 +110,7 @@ class PytorchImagesDataset(Dataset):
             image = self.cache.get(new_idx)
             cache_hit = image is not None
         if not self.cache or not cache_hit:
-            image_path = os.path.join(self.base_dir_for_images, 'image_%i.npz' % new_idx)
+            image_path = os.path.join(self.base_dir_for_images, 'image_%i.npy' % new_idx)
             image = self.load_image(image_path)
 
         # ----- Data augmentation -----
@@ -142,8 +142,7 @@ class PytorchImagesDataset(Dataset):
         return sample
 
     def load_image(self, path):
-        print(path)
-        return np.load(path)['arr_0']
+        return np.load(path, allow_pickle=True)
 
 def load_non_image_data(dataset_split, C_cols, y_cols, zscore_C, zscore_Y,
                         transform_statistics=None, merge_klg_01=True, truncate_C_floats=True,
