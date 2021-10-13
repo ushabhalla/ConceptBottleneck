@@ -81,7 +81,6 @@ class PytorchImagesDataset(Dataset):
             self.selected_ids = selected_ids
         else:
             self.selected_ids = np.arange(N)
-            print()
             l = os.listdir(self.base_dir_for_images)
             self.selected_ids = [int(x.split("_")[1].split(".")[0]) for x in l if x[-1] == "y"]
 
@@ -145,7 +144,6 @@ class PytorchImagesDataset(Dataset):
 
     def load_image(self, path):
         ### USHA CHANGED FROM np.load(path)['arr_0']
-        arr = np.load(path, allow_pickle=True)
         # print(path, arr.shape)
         return np.load(path, allow_pickle=True)
 
@@ -368,14 +366,19 @@ def get_image_cache_for_split(dataset_split, limit=None):
     num_workers = 8
     def get_images(ids_group, result):
         for idx in ids_group:
-            image_path = os.path.join(base_dir_for_images, 'image_%i.npz' % idx)
-            image = np.load(image_path)['arr_0']
+            ## USHA CHANGED FROM NPZ TO NPY
+            image_path = os.path.join(base_dir_for_images, 'image_%i.npy' % idx)
+            image = np.load(image_path)
             result[idx] = image
 
     rounds = 20 # Split into multiple rounds to pass smaller sized data
     import threading
 
-    ids_groups_list = np.array_split(range(N), num_workers * rounds)
+    ###USHA CHANGED to new_list from range(N)
+    l = os.listdir(base_dir_for_images)
+    new_list = [int(x.split("_")[1].split(".")[0]) for x in l if x[-1] == "y"]
+
+    ids_groups_list = np.array_split(new_list, num_workers * rounds)
     for round in range(rounds):
         print('  Iter %d/%d' % (round + 1, rounds))
         ids_groups = ids_groups_list[round * num_workers:(round + 1) * num_workers]
