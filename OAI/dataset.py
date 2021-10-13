@@ -123,7 +123,7 @@ class PytorchImagesDataset(Dataset):
         if self.downsample_fraction:
             image = downsample_image(image, self.downsample_fraction)
 
-        image = np.tile(image, [3, 1, 1])
+        # image = np.tile(image, [3, 1, 1])
 
         # ----- Data processing -----
         if self.C_cols:
