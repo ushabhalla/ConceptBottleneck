@@ -123,6 +123,7 @@ class PytorchImagesDataset(Dataset):
         if self.downsample_fraction:
             image = downsample_image(image, self.downsample_fraction)
 
+        ### USHA REMOVED
         # image = np.tile(image, [3, 1, 1])
 
         # ----- Data processing -----
@@ -145,7 +146,7 @@ class PytorchImagesDataset(Dataset):
     def load_image(self, path):
         ### USHA CHANGED FROM np.load(path)['arr_0']
         arr = np.load(path, allow_pickle=True)
-        print(path, arr.shape)
+        # print(path, arr.shape)
         return np.load(path, allow_pickle=True)
 
 def load_non_image_data(dataset_split, C_cols, y_cols, zscore_C, zscore_Y,
