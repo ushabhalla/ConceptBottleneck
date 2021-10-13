@@ -81,6 +81,9 @@ class PytorchImagesDataset(Dataset):
             self.selected_ids = selected_ids
         else:
             self.selected_ids = np.arange(N)
+            print(self.base_dir_for_images)
+            l = os.listdir(self.base_dir_for_images)
+            self.selected_ids = [int(x.split("_")[1].split(".")[0]) for x in l if x[-1] == "y"]
 
         if C_hat_path:
             # Attribute prediction available from previous model
