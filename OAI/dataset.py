@@ -142,6 +142,7 @@ class PytorchImagesDataset(Dataset):
         return sample
 
     def load_image(self, path):
+        print(path)
         return np.load(path)['arr_0']
 
 def load_non_image_data(dataset_split, C_cols, y_cols, zscore_C, zscore_Y,
