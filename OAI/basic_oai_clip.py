@@ -7,6 +7,7 @@ from sklearn.linear_model import LogisticRegression
 from torch.utils.data import DataLoader
 from tqdm import tqdm
 from torch.autograd import Variable
+import pdb
 from dataset import load_non_image_data, load_data_from_different_splits, PytorchImagesDataset, \
     get_image_cache_for_split
 
@@ -66,6 +67,7 @@ for epoch in range(30):
         with torch.no_grad():
             for data in dataloaders[phase]:
                 data_dict = get_data_dict_from_dataloader(data, C_cols)
+                pdb.set_trace()
                 inputs = data_dict['inputs']
                 labels = data_dict['labels']
 
