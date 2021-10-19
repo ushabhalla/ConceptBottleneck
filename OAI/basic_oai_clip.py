@@ -66,7 +66,7 @@ for c in C_cols:
     concept_class_dict[c] = LinearRegression()
 
 # pdb.set_trace()
-for epoch in range(30):
+for epoch in range(100):
     for phase in ['train', 'val']:
         all_features = []
         all_labels = []
