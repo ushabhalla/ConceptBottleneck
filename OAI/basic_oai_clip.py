@@ -10,6 +10,7 @@ from torch.autograd import Variable
 import pdb
 from dataset import load_non_image_data, load_data_from_different_splits, PytorchImagesDataset, \
     get_image_cache_for_split
+from torchvision import transforms
 
 def get_data_dict_from_dataloader(data, C_cols):
         # Retrieves the relevant data from dataloader and store into a dict
@@ -19,11 +20,11 @@ def get_data_dict_from_dataloader(data, C_cols):
         C_feats_not_nan = data['C_feats_not_nan']
 
         # wrap them in Variable
-        X = Variable(X.float().cuda())
-        y = Variable(y.float().cuda())
+        X = Variable(X.float())
+        y = Variable(y.float())
         if len(C_cols) > 0:
-            C_feats = Variable(C_feats.float().cuda())
-            C_feats_not_nan = Variable(C_feats_not_nan.float().cuda())
+            C_feats = Variable(C_feats.float())
+            C_feats_not_nan = Variable(C_feats_not_nan.float())
 
         inputs = { 'image': X }
         labels = { 'y': y,
@@ -57,7 +58,7 @@ model, preprocess = clip.load('RN50', device)
 C_cols=['xrosfm', 'xrscfm', 'xrjsm', 'xrostm', 'xrsctm', 'xrosfl', 'xrscfl', 'xrjsl', 'xrostl', 'xrsctl']
 dataloaders, datasets, dataset_sizes = load_data_from_different_splits(batch_size=1, C_cols=C_cols, y_cols=['xrkl'], zscore_C=True, zscore_Y=False, data_proportion=1.0,
     shuffle_Cs=False, merge_klg_01=True, max_horizontal_translation=0.1, max_vertical_translation=0.1, sampling_strategy='uniform', augment='random_translation', use_small_subset=True)
-
+transform = transforms.ToPILImage(mode='RGB')
 
 for epoch in range(30):
     for phase in ['train', 'val']:
@@ -68,7 +69,7 @@ for epoch in range(30):
             for data in dataloaders[phase]:
                 data_dict = get_data_dict_from_dataloader(data, C_cols)
                 pdb.set_trace()
-                inputs = preprocess(data_dict['inputs']['image'])
+                inputs = preprocess(transform(data_dict['inputs']['image'].squeeze()))
                 labels = data_dict['labels']['C_feats']
 
                 features = model.encode_image(inputs.cuda())
