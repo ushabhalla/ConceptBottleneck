@@ -74,7 +74,7 @@ for epoch in range(30):
                 labels = data_dict['labels']['C_feats']
 
                 features = model.encode_image(inputs.cuda())
-                all_features.append(features)
+                all_features.append(features.squeeze().numpy())
                 all_labels.append(labels)
 
             # pdb.set_trace()
