@@ -68,7 +68,7 @@ for epoch in range(30):
         with torch.no_grad():
             for data in dataloaders[phase]:
                 data_dict = get_data_dict_from_dataloader(data, C_cols)
-                pdb.set_trace()
+                # pdb.set_trace()
                 inputs = preprocess(transform(data_dict['inputs']['image'].squeeze()))
                 inputs = inputs.unsqueeze(0)
                 labels = data_dict['labels']['C_feats']
@@ -77,7 +77,7 @@ for epoch in range(30):
                 all_features.append(features)
                 all_labels.append(labels)
 
-            pdb.set_trace()
+            # pdb.set_trace()
             # Perform logistic regression
             if phase == 'train':
                 classifier = LogisticRegression(random_state=0, C=0.316, max_iter=1000, verbose=1)
