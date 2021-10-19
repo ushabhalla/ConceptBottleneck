@@ -65,7 +65,7 @@ concept_class_dict = {}
 for c in C_cols:
     concept_class_dict[c] = LinearRegression()
 
-pdb.set_trace()
+# pdb.set_trace()
 for epoch in range(30):
     for phase in ['train', 'val']:
         all_features = []
@@ -100,6 +100,7 @@ for epoch in range(30):
             else:
                 for i, c in enumerate(C_cols):
                     classifier = concept_class_dict[c]
-                    predictions = classifier.predict(all_features)
-                    loss = np.mean(all_labels[:,i] - predictions).astype(np.float) 
-                    print("Epoch:", str(epoch)+ ",", "Class:", str(c) + ",", f"Loss = {loss:.3f}")
+                    # predictions = classifier.predict(all_features)
+                    score = classifier.score(all_features, all_labels[:,i])
+                    # loss = np.mean(all_labels[:,i] - predictions).astype(np.float) 
+                    print("Epoch:", str(epoch)+ ",", "Class:", str(c) + ",", f"Score = {score:.3f}")
