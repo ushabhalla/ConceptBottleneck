@@ -2,7 +2,7 @@
 import os
 
 MODEL_NAME = 'resnet18'
-N_DATALOADER_WORKERS = 2
+N_DATALOADER_WORKERS = 0
 CACHE_LIMIT = 1e8
 EST_TIME_PER_EXP = 4
 BASE_DIR = '/users/ubhalla/scratch/ConceptBottleneck'
