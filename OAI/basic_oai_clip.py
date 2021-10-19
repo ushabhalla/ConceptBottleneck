@@ -75,6 +75,7 @@ for epoch in range(30):
                 all_features.append(features)
                 all_labels.append(labels)
 
+            pdb.set_trace()
             # Perform logistic regression
             if phase == 'train':
                 classifier = LogisticRegression(random_state=0, C=0.316, max_iter=1000, verbose=1)
