@@ -59,6 +59,12 @@ C_cols=['xrosfm', 'xrscfm', 'xrjsm', 'xrostm', 'xrsctm', 'xrosfl', 'xrscfl', 'xr
 dataloaders, datasets, dataset_sizes = load_data_from_different_splits(batch_size=1, C_cols=C_cols, y_cols=['xrkl'], zscore_C=True, zscore_Y=False, data_proportion=1.0,
     shuffle_Cs=False, merge_klg_01=True, max_horizontal_translation=0.1, max_vertical_translation=0.1, sampling_strategy='uniform', augment='random_translation', use_small_subset=True)
 transform = transforms.ToPILImage(mode='RGB')
+
+
+concept_class_dict = {}
+for c in C_cols:
+    concept_class_dict[c] = LogisticRegression(random_state=0, C=0.316, max_iter=1000, verbose=1)
+
 pdb.set_trace()
 for epoch in range(30):
     for phase in ['train', 'val']:
@@ -68,7 +74,7 @@ for epoch in range(30):
         with torch.no_grad():
             for data in dataloaders[phase]:
                 data_dict = get_data_dict_from_dataloader(data, C_cols)
-                # pdb.set_trace()
+
                 inputs = preprocess(transform(data_dict['inputs']['image'].squeeze()))
                 inputs = inputs.unsqueeze(0)
                 labels = data_dict['labels']['C_feats']
@@ -79,14 +85,16 @@ for epoch in range(30):
                 all_labels.append(labels.squeeze().cpu().numpy())
             
             all_features = np.array(all_features)
-            print(all_features.shape)
             all_labels = np.array(all_labels)
-            print(all_labels.shape)
-            # pdb.set_trace()
+
             # Perform logistic regression
             if phase == 'train':
-                classifier = LogisticRegression(random_state=0, C=0.316, max_iter=1000, verbose=1)
-                classifier.fit(all_features, all_labels)
+                for i, c in enumerate(C_cols):
+                    classifier = concept_class_dict[c]
+                    classifier.fit(all_features, all_labels[:,i])
+
+                # classifier = LogisticRegression(random_state=0, C=0.316, max_iter=1000, verbose=1)
+                # classifier.fit(all_features, all_labels)
 
             # Evaluate using the logistic regression classifier
             else:
