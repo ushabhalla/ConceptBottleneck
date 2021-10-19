@@ -70,6 +70,7 @@ for epoch in range(30):
                 data_dict = get_data_dict_from_dataloader(data, C_cols)
                 pdb.set_trace()
                 inputs = preprocess(transform(data_dict['inputs']['image'].squeeze()))
+                inputs = inputs.unsqueeze(0)
                 labels = data_dict['labels']['C_feats']
 
                 features = model.encode_image(inputs.cuda())
