@@ -99,5 +99,5 @@ for epoch in range(30):
             # Evaluate using the logistic regression classifier
             else:
                 predictions = classifier.predict(all_features)
-                accuracy = np.mean((all_features == predictions).astype(np.float)) * 100.
+                accuracy = np.mean((all_features == predictions)).astype(np.float) * 100.
                 print("Epoch:", str(epoch), f"Accuracy = {accuracy:.3f}")
