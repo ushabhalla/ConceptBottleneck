@@ -81,10 +81,10 @@ for epoch in range(30):
             # Perform logistic regression
             if phase == 'train':
                 classifier = LogisticRegression(random_state=0, C=0.316, max_iter=1000, verbose=1)
-                classifier.fit(np.ndarray(all_features), np.ndarray(all_labels))
+                classifier.fit(np.array(all_features), np.array(all_labels))
 
             # Evaluate using the logistic regression classifier
             else:
-                predictions = classifier.predict(np.ndarray(all_features))
-                accuracy = np.mean((np.ndarray(all_features) == predictions).astype(np.float)) * 100.
+                predictions = classifier.predict(np.array(all_features))
+                accuracy = np.mean((np.array(all_features) == predictions).astype(np.float)) * 100.
                 print("Epoch:", str(epoch), f"Accuracy = {accuracy:.3f}")
