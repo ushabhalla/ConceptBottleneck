@@ -56,8 +56,8 @@ model, preprocess = clip.load('RN50', device)
 # Load the dataset
 # root = os.path.expanduser("~/.cache")
 C_cols=['xrosfm', 'xrscfm', 'xrjsm', 'xrostm', 'xrsctm', 'xrosfl', 'xrscfl', 'xrjsl', 'xrostl', 'xrsctl']
-dataloaders, datasets, dataset_sizes = load_data_from_different_splits(batch_size=1, C_cols=C_cols, y_cols=['xrkl'], zscore_C=True, zscore_Y=False, data_proportion=1.0,
-    shuffle_Cs=False, merge_klg_01=True, max_horizontal_translation=0.1, max_vertical_translation=0.1, sampling_strategy='uniform', augment='random_translation', use_small_subset=True)
+dataloaders, datasets, dataset_sizes = load_data_from_different_splits(batch_size=8, C_cols=C_cols, y_cols=['xrkl'], zscore_C=True, zscore_Y=False, data_proportion=1.0,
+    shuffle_Cs=False, merge_klg_01=True, max_horizontal_translation=0.1, max_vertical_translation=0.1, sampling_strategy='uniform', augment='random_translation')
 transform = transforms.ToPILImage(mode='RGB')
 
 
@@ -84,8 +84,8 @@ for epoch in range(30):
                 all_features.append(features.squeeze().cpu().numpy())
                 all_labels.append(labels.squeeze().cpu().numpy())
             
-            all_features = np.array(all_features)
-            all_labels = np.array(all_labels)
+            all_features = np.array(all_features).reshape(-1, 1024)
+            all_labels = np.array(all_labels).reshape(-1, 10)
 
             # Perform logistic regression
             if phase == 'train':
