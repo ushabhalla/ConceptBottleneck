@@ -67,9 +67,9 @@ for epoch in range(30):
         with torch.no_grad():
             for data in dataloaders[phase]:
                 data_dict = get_data_dict_from_dataloader(data, C_cols)
-                pdb.set_trace()
-                inputs = data_dict['inputs']
-                labels = data_dict['labels']
+                # pdb.set_trace()
+                inputs = data_dict['inputs']['image']
+                labels = data_dict['labels']['C_feats']
 
                 features = model.encode_image(inputs.cuda())
                 all_features.append(features)
