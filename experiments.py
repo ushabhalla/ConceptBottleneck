@@ -93,9 +93,9 @@ if __name__ == '__main__':
     import numpy as np
 
     dataset, args = parse_arguments()
-
+    print(args)
     # Seeds
     np.random.seed(args[0].seed)
     torch.manual_seed(args[0].seed)
 
-    run_experiments(dataset, args)
+    # run_experiments(dataset, args)
