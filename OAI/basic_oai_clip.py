@@ -68,7 +68,7 @@ for epoch in range(30):
             for data in dataloaders[phase]:
                 data_dict = get_data_dict_from_dataloader(data, C_cols)
                 pdb.set_trace()
-                inputs = data_dict['inputs']['image']
+                inputs = preprocess(data_dict['inputs']['image'])
                 labels = data_dict['labels']['C_feats']
 
                 features = model.encode_image(inputs.cuda())
