@@ -63,7 +63,7 @@ transform = transforms.ToPILImage(mode='RGB')
 
 concept_class_dict = {}
 for c in C_cols:
-    concept_class_dict[c] = LinearRegression(random_state=0, C=0.316, max_iter=1000, verbose=1)
+    concept_class_dict[c] = LinearRegression()
 
 pdb.set_trace()
 for epoch in range(30):
