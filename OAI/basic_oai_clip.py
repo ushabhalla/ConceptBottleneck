@@ -55,7 +55,7 @@ model, preprocess = clip.load('RN50', device)
 # Load the dataset
 # root = os.path.expanduser("~/.cache")
 C_cols=['xrosfm', 'xrscfm', 'xrjsm', 'xrostm', 'xrsctm', 'xrosfl', 'xrscfl', 'xrjsl', 'xrostl', 'xrsctl']
-dataloaders, datasets, dataset_sizes = load_data_from_different_splits(batch_size=8, C_cols=C_cols, y_cols=['xrkl'], zscore_C=True, zscore_Y=False, data_proportion=1.0,
+dataloaders, datasets, dataset_sizes = load_data_from_different_splits(batch_size=1, C_cols=C_cols, y_cols=['xrkl'], zscore_C=True, zscore_Y=False, data_proportion=1.0,
     shuffle_Cs=False, merge_klg_01=True, max_horizontal_translation=0.1, max_vertical_translation=0.1, sampling_strategy='uniform', augment='random_translation', use_small_subset=True)
 
 
@@ -68,7 +68,7 @@ for epoch in range(30):
             for data in dataloaders[phase]:
                 data_dict = get_data_dict_from_dataloader(data, C_cols)
                 pdb.set_trace()
-                inputs = data_dict['inputs']['image'][:,0]
+                inputs = data_dict['inputs']['image']
                 labels = data_dict['labels']['C_feats']
 
                 features = model.encode_image(inputs.cuda())
