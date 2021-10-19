@@ -55,7 +55,7 @@ model, preprocess = clip.load('RN50', device)
 # root = os.path.expanduser("~/.cache")
 C_cols=['xrosfm', 'xrscfm', 'xrjsm', 'xrostm', 'xrsctm', 'xrosfl', 'xrscfl', 'xrjsl', 'xrostl', 'xrsctl']
 dataloaders, datasets, dataset_sizes = load_data_from_different_splits(batch_size=8, C_cols=C_cols, y_cols=['xrkl'], zscore_C=True, zscore_Y=False, data_proportion=1.0,
-    shuffle_Cs=False, merge_klg_01=True, max_horizontal_translation=0.1, max_vertical_translation=0.1, transform='None', use_small_subset=True)
+    shuffle_Cs=False, merge_klg_01=True, max_horizontal_translation=0.1, max_vertical_translation=0.1, augment='random_translation', use_small_subset=True)
 
 
 for epoch in range(30):
