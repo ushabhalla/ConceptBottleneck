@@ -56,7 +56,7 @@ model, preprocess = clip.load('RN50', device)
 # Load the dataset
 # root = os.path.expanduser("~/.cache")
 C_cols=['xrosfm', 'xrscfm', 'xrjsm', 'xrostm', 'xrsctm', 'xrosfl', 'xrscfl', 'xrjsl', 'xrostl', 'xrsctl']
-dataloaders, datasets, dataset_sizes = load_data_from_different_splits(batch_size=8, C_cols=C_cols, y_cols=['xrkl'], zscore_C=True, zscore_Y=False, data_proportion=1.0,
+dataloaders, datasets, dataset_sizes = load_data_from_different_splits(batch_size=1, C_cols=C_cols, y_cols=['xrkl'], zscore_C=True, zscore_Y=False, data_proportion=1.0,
     shuffle_Cs=False, merge_klg_01=True, max_horizontal_translation=0.1, max_vertical_translation=0.1, sampling_strategy='uniform', augment='random_translation')
 transform = transforms.ToPILImage(mode='RGB')
 
@@ -84,8 +84,8 @@ for epoch in range(30):
                 all_features.append(features.squeeze().cpu().numpy())
                 all_labels.append(labels.squeeze().cpu().numpy())
             
-            all_features = np.array(all_features).reshape(-1, 1024)
-            all_labels = np.array(all_labels).reshape(-1, 10)
+            all_features = np.array(all_features)
+            all_labels = np.array(all_labels)
 
             # Perform logistic regression
             if phase == 'train':
@@ -98,9 +98,11 @@ for epoch in range(30):
 
             # Evaluate using the logistic regression classifier
             else:
+                scores = []
                 for i, c in enumerate(C_cols):
                     classifier = concept_class_dict[c]
                     # predictions = classifier.predict(all_features)
                     score = classifier.score(all_features, all_labels[:,i])
+                    scores.append(score)
                     # loss = np.mean(all_labels[:,i] - predictions).astype(np.float) 
-                    print("Epoch:", str(epoch)+ ",", "Class:", str(c) + ",", f"Score = {score:.3f}")
+                print("Epoch:", str(epoch)+ ",", "Scores:", scores)
