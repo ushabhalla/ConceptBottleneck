@@ -101,5 +101,5 @@ for epoch in range(30):
                 for i, c in enumerate(C_cols):
                     classifier = concept_class_dict[c]
                     predictions = classifier.predict(all_features)
-                    accuracy = np.mean((all_labels == predictions)).astype(np.float) * 100.
+                    accuracy = np.mean((all_labels[:,i] == predictions)).astype(np.float) * 100.
                 print("Epoch:", str(epoch)+ ",", "Class:", str(c) + ",", f"Accuracy = {accuracy:.3f}")
