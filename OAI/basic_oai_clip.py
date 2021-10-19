@@ -69,7 +69,7 @@ for epoch in range(30):
                 inputs = data_dict['inputs']
                 labels = data_dict['labels']
 
-                features = model.encode_image(inputs.to(device))
+                features = model.encode_image(inputs.cuda())
                 all_features.append(features)
                 all_labels.append(labels)
 
