@@ -7,7 +7,7 @@ from sklearn.linear_model import LogisticRegression
 from torch.utils.data import DataLoader
 from tqdm import tqdm
 from torch.autograd import Variable
-from dataset import load_non_image_data, load_data_from_different_splits, PytorchImagesDataset, \
+from OAI.dataset import load_non_image_data, load_data_from_different_splits, PytorchImagesDataset, \
     get_image_cache_for_split
 
 def get_data_dict_from_dataloader(self, data):
