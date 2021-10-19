@@ -74,8 +74,8 @@ for epoch in range(30):
                 labels = data_dict['labels']['C_feats']
 
                 features = model.encode_image(inputs.cuda())
-                all_features.append(features.squeeze().numpy())
-                all_labels.append(labels)
+                all_features.append(features.squeeze().cpu().numpy())
+                all_labels.append(labels.squeeze().cpu().numpy())
 
             # pdb.set_trace()
             # Perform logistic regression
