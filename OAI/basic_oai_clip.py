@@ -74,17 +74,20 @@ for epoch in range(30):
                 labels = data_dict['labels']['C_feats']
 
                 features = model.encode_image(inputs.cuda())
+                print(features.shape)
                 all_features.append(features.squeeze().cpu().numpy())
                 all_labels.append(labels.squeeze().cpu().numpy())
-
+            
+            all_features = np.reshape(np.array(all_features),shape=(-1, 3, 1024, 1024))
+            all_labels = np.reshape(np.array(all_labels), shape=(-1, 10))
             # pdb.set_trace()
             # Perform logistic regression
             if phase == 'train':
                 classifier = LogisticRegression(random_state=0, C=0.316, max_iter=1000, verbose=1)
-                classifier.fit(np.array(all_features), np.array(all_labels))
+                classifier.fit(all_features, all_labels)
 
             # Evaluate using the logistic regression classifier
             else:
-                predictions = classifier.predict(np.array(all_features))
-                accuracy = np.mean((np.array(all_features) == predictions).astype(np.float)) * 100.
+                predictions = classifier.predict(all_features)
+                accuracy = np.mean((all_features == predictions).astype(np.float)) * 100.
                 print("Epoch:", str(epoch), f"Accuracy = {accuracy:.3f}")
