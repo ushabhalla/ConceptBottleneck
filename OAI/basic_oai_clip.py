@@ -10,7 +10,7 @@ from torch.autograd import Variable
 from dataset import load_non_image_data, load_data_from_different_splits, PytorchImagesDataset, \
     get_image_cache_for_split
 
-def get_data_dict_from_dataloader(self, data):
+def get_data_dict_from_dataloader(data, C_cols):
         # Retrieves the relevant data from dataloader and store into a dict
         X = data['image']  # X
         y = data['y']  # y
@@ -20,7 +20,7 @@ def get_data_dict_from_dataloader(self, data):
         # wrap them in Variable
         X = Variable(X.float().cuda())
         y = Variable(y.float().cuda())
-        if len(self.C_cols) > 0:
+        if len(C_cols) > 0:
             C_feats = Variable(C_feats.float().cuda())
             C_feats_not_nan = Variable(C_feats_not_nan.float().cuda())
 
@@ -65,7 +65,7 @@ for epoch in range(30):
         
         with torch.no_grad():
             for data in dataloaders[phase]:
-                data_dict = get_data_dict_from_dataloader(data)
+                data_dict = get_data_dict_from_dataloader(data, C_cols)
                 inputs = data_dict['inputs']
                 labels = data_dict['labels']
 
