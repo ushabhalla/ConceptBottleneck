@@ -53,12 +53,12 @@ model, preprocess = clip.load('RN50', device)
 
 # Load the dataset
 # root = os.path.expanduser("~/.cache")
+C_cols=['xrosfm', 'xrscfm', 'xrjsm', 'xrostm', 'xrsctm', 'xrosfl', 'xrscfl', 'xrjsl', 'xrostl', 'xrsctl']
+dataloaders, datasets, dataset_sizes = load_data_from_different_splits(batch_size=8, C_cols=C_cols, y_cols=['xrkl'], zscore_C=True, zscore_Y=False, data_proportion=1.0,
+    shuffle_Cs=False, merge_klg_01=True, max_horizontal_translation=0.1, max_vertical_translation=0.1)
 
-dataloaders, datasets, dataset_sizes = load_data_from_different_splits(batch_size=128, C_cols=, y_cols=, zscore_C=, zscore_Y=, data_proportion=,
-    shuffle_Cs=, merge_klg_01=, max_horizontal_translation=, max_vertical_translation=))
 
-
-for epoch in range(10):
+for epoch in range(30):
     for phase in ['train', 'val']:
         all_features = []
         all_labels = []
