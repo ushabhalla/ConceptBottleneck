@@ -59,7 +59,7 @@ C_cols=['xrosfm', 'xrscfm', 'xrjsm', 'xrostm', 'xrsctm', 'xrosfl', 'xrscfl', 'xr
 dataloaders, datasets, dataset_sizes = load_data_from_different_splits(batch_size=1, C_cols=C_cols, y_cols=['xrkl'], zscore_C=True, zscore_Y=False, data_proportion=1.0,
     shuffle_Cs=False, merge_klg_01=True, max_horizontal_translation=0.1, max_vertical_translation=0.1, sampling_strategy='uniform', augment='random_translation', use_small_subset=True)
 transform = transforms.ToPILImage(mode='RGB')
-pdb.set_trace()
+# pdb.set_trace()
 for epoch in range(30):
     for phase in ['train', 'val']:
         all_features = []
@@ -81,10 +81,10 @@ for epoch in range(30):
             # Perform logistic regression
             if phase == 'train':
                 classifier = LogisticRegression(random_state=0, C=0.316, max_iter=1000, verbose=1)
-                classifier.fit(all_features, all_labels)
+                classifier.fit(np.ndarray(all_features), np.ndarray(all_labels))
 
             # Evaluate using the logistic regression classifier
             else:
-                predictions = classifier.predict(all_features)
-                accuracy = np.mean((all_features == predictions).astype(np.float)) * 100.
+                predictions = classifier.predict(np.ndarray(all_features))
+                accuracy = np.mean((np.ndarray(all_features) == predictions).astype(np.float)) * 100.
                 print("Epoch:", str(epoch), f"Accuracy = {accuracy:.3f}")
