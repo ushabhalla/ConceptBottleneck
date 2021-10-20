@@ -66,6 +66,7 @@ transform = transforms.ToPILImage(mode='RGB')
 # for c in C_cols:
 #     concept_class_dict[c] = LinearRegression()
 classifier = LogisticRegression(random_state=0, C=0.316, max_iter=1000, verbose=1)
+classifier2 = LinearRegression()
 
 # pdb.set_trace()
 for epoch in range(100):
@@ -93,6 +94,7 @@ for epoch in range(100):
             # Perform logistic regression
             if phase == 'train':
                 classifier.fit(all_features, all_labels)
+                classifier2.fit(all_features, all_labels)
                 # for i, c in enumerate(C_cols):
                 #     classifier = concept_class_dict[c]
                 #     classifier.fit(all_features, all_labels[:,i])
@@ -102,11 +104,12 @@ for epoch in range(100):
 
             # Evaluate using the logistic regression classifier
             else:
-                scores = []
-                scores.append(classifier.score(all_features, all_labels))
+                # scores = []
+                acc = classifier.score(all_features, all_labels)
+                score = classifier2.score(all_features, all_labels)
                 # for i, c in enumerate(C_cols):
                 #     classifier = concept_class_dict[c]
                 #     score = classifier.score(all_features, all_labels[:,i])
                 #     scores.append(score)
 
-                print("Epoch:", str(epoch)+ ",", "Scores:", scores)
+                print("Epoch:", str(epoch)+ ",", "Score:", score, "Acc: ", acc)
