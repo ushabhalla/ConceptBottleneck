@@ -65,7 +65,7 @@ transform = transforms.ToPILImage(mode='RGB')
 # concept_class_dict = {}
 # for c in C_cols:
 #     concept_class_dict[c] = LinearRegression()
-classifier = LogisticRegression(random_state=0, C=0.316, max_iter=1000, verbose=1)
+classifier = LogisticRegression(n_jobs=3)
 classifier2 = LinearRegression()
 
 # pdb.set_trace()
@@ -107,6 +107,13 @@ for epoch in range(100):
                 # scores = []
                 acc = classifier.score(all_features, all_labels)
                 score = classifier2.score(all_features, all_labels)
+
+                if epoch % 10 == 0:
+                    p = classifier.predict(all_features)
+                    print(p)
+                    p = classifier2.predict(all_features)
+                    print(p)
+                    print(all_labels)
                 # for i, c in enumerate(C_cols):
                 #     classifier = concept_class_dict[c]
                 #     score = classifier.score(all_features, all_labels[:,i])
