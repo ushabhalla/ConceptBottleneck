@@ -65,7 +65,7 @@ transform = transforms.ToPILImage(mode='RGB')
 # concept_class_dict = {}
 # for c in C_cols:
 #     concept_class_dict[c] = LinearRegression()
-classifier = LogisticRegression(n_jobs=3)
+classifier = LogisticRegression(n_jobs=3, max_iter=1000)
 classifier2 = LinearRegression()
 
 # pdb.set_trace()
